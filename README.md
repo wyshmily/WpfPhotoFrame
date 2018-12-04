@@ -27,6 +27,6 @@ A easy way to apply a PhotoFrame to anything in WPF.
 
 ````
 
-Get it on NuGet:
+#### NuGet Package:
 
 `PM> Install-Package WpfPhotoFrame`
