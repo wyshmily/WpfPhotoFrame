@@ -13,6 +13,6 @@
     <description>A easy way to apply a PhotoFrame to anything in WPF</description>
     <releaseNotes>First Release</releaseNotes>
     <copyright>Copyright 2018</copyright>
-    <tags>WPF Photo Frame</tags>
+    <tags>WPF Photo Frame 相框</tags>
   </metadata>
 </package>

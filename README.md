@@ -10,14 +10,23 @@ A easy way to apply a PhotoFrame to anything in WPF.
 
 #### Poduces:
 <img src="https://github.com/wyshmily/WpfPhotoFrame/blob/master/WpfPhotoFrame.Demo/Images/result.png" width="400">
+<img src="https://github.com/wyshmily/WpfPhotoFrame/blob/master/WpfPhotoFrame.Demo/Images/result2.png" width="430">
+<img src="https://github.com/wyshmily/WpfPhotoFrame/blob/master/WpfPhotoFrame.Demo/Images/result3.png" width="460">
 
 #### Usage:
 ````xaml
 
 <!--xmlns:pf="http://wpf.wyshmily/photoframe"-->
 
-<pf:PhotoFrame Source="Images/TestFrame.png" CornerSize="60" Scale="0.4">
+<Grid HorizontalAlignment="Center" VerticalAlignment="Center">
     <Image Source="Images/jangye.jpeg" Width="400" />
-</pf:PhotoFrame>
+    <pf:PhotoFrame Source="Images/TestFrame.png" CornerSize="60" Scale="0.4" Mode="Intermediate" />
+</Grid>
+
+
 
 ````
+
+Get it on NuGet:
+
+`PM> Install-Package WpfPhotoFrame`

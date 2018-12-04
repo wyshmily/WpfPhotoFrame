@@ -10,7 +10,7 @@
 
     <DockPanel>
         <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Height="50">
-            <TextBlock Text="Source：" VerticalAlignment="Center"/>
+            <TextBlock Text="Source：" VerticalAlignment="Center" Margin="10 0 0 0"/>
             <ComboBox x:Name="FrameComboBox" ItemsSource="{Binding FrameList}" VerticalAlignment="Center" MinHeight="46" Width="80" SelectedIndex="0">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
