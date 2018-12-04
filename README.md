@@ -10,8 +10,8 @@ A easy way to apply a PhotoFrame to anything in WPF.
 
 #### Poduces:
 <img src="https://github.com/wyshmily/WpfPhotoFrame/blob/master/WpfPhotoFrame.Demo/Images/result.png" width="400">
-<img src="https://github.com/wyshmily/WpfPhotoFrame/blob/master/WpfPhotoFrame.Demo/Images/result2.png" width="430">
-<img src="https://github.com/wyshmily/WpfPhotoFrame/blob/master/WpfPhotoFrame.Demo/Images/result3.png" width="460">
+<img src="https://github.com/wyshmily/WpfPhotoFrame/blob/master/WpfPhotoFrame.Demo/Images/result2.png" width="400">
+<img src="https://github.com/wyshmily/WpfPhotoFrame/blob/master/WpfPhotoFrame.Demo/Images/result3.png" width="400">
 
 #### Usage:
 ````xaml
