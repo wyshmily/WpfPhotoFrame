@@ -1,23 +1,54 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace WpfPhotoFrame
 {
-    public class PhotoFrame : ContentControl
+    public class PhotoFrame : Control
     {
         static PhotoFrame()
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(PhotoFrame), new FrameworkPropertyMetadata(typeof(PhotoFrame)));
-
             Image.SourceProperty.AddOwner(typeof(PhotoFrame), new FrameworkPropertyMetadata(UpdatePhotoFrame));
         }
 
+        private Adorner adorner;
+
         public PhotoFrame()
         {
+            Loaded += PhotoFrameDecorator_Loaded;
+            Unloaded += PhotoFrameDecorator_Unloaded;
             SizeChanged += PhotoFrame_SizeChanged;
+        }
+
+        private void PhotoFrameDecorator_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (this.adorner == null)
+            {
+                AdornerLayer adornerLayer = AdornerLayer.GetAdornerLayer(this);
+
+                if (adornerLayer != null)
+                {
+                    this.adorner = new PhotoFrameAdorner(this);
+                    adornerLayer.Add(this.adorner);
+                }
+            }
+        }
+
+        private void PhotoFrameDecorator_Unloaded(object sender, RoutedEventArgs e)
+        {
+            if (this.adorner != null)
+            {
+                AdornerLayer adornerLayer = AdornerLayer.GetAdornerLayer(this);
+                if (adornerLayer != null)
+                {
+                    adornerLayer.Remove(this.adorner);
+                }
+
+                this.adorner = null;
+            }
         }
 
         private void PhotoFrame_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -55,6 +86,16 @@ namespace WpfPhotoFrame
         }
 
         /// <summary>
+        /// mode, internal, outernal or intermediate
+        /// </summary>
+        public static readonly DependencyProperty ModeProperty = DependencyProperty.Register("Mode", typeof(PhotoFrameMode), typeof(PhotoFrame), new PropertyMetadata(PhotoFrameMode.Internal, UpdatePhotoFrame));
+        public PhotoFrameMode Mode
+        {
+            get => (PhotoFrameMode)GetValue(ModeProperty);
+            set => SetValue(ModeProperty, value);
+        }
+
+        /// <summary>
         /// corner size after scale
         /// </summary>
         public static readonly DependencyProperty ScaledCornerSizeProperty = DependencyProperty.Register("ScaledCornerSize", typeof(double), typeof(PhotoFrame));
@@ -62,6 +103,16 @@ namespace WpfPhotoFrame
         {
             get => (double)GetValue(ScaledCornerSizeProperty);
             private set => SetValue(ScaledCornerSizeProperty, value);
+        }
+
+        /// <summary>
+        /// overflow margin decided by ModeProperty
+        /// </summary>
+        public static readonly DependencyProperty OverflowMarginProperty = DependencyProperty.Register("OverflowMargin", typeof(double), typeof(PhotoFrame));
+        public double OverflowMargin
+        {
+            get => (double)GetValue(OverflowMarginProperty);
+            private set => SetValue(OverflowMarginProperty, value);
         }
 
         /// <summary>
@@ -215,6 +266,19 @@ namespace WpfPhotoFrame
             {
                 pf.ScaledCornerSize = pf.Scale * pf.CornerSize;
 
+                switch (pf.Mode)
+                {
+                    case PhotoFrameMode.Internal:
+                        pf.OverflowMargin = 0;
+                        break;
+                    case PhotoFrameMode.Outernal:
+                        pf.OverflowMargin = -pf.ScaledCornerSize;
+                        break;
+                    case PhotoFrameMode.Intermediate:
+                        pf.OverflowMargin = -pf.ScaledCornerSize / 2;
+                        break;
+                }
+
                 pf.ImageWidth = bitmapSource.PixelWidth;
                 pf.ImageHeight = bitmapSource.PixelHeight;
 
@@ -229,7 +293,7 @@ namespace WpfPhotoFrame
                 pf.SideWidth = bitmapSource.PixelWidth - pf.CornerSize * 2;
                 pf.SideHeight = bitmapSource.PixelHeight - pf.CornerSize * 2;
 
-                double sideWidth = pf.ActualWidth - pf.ScaledCornerSize * 2;
+                double sideWidth = pf.ActualWidth - pf.OverflowMargin * 2 - pf.ScaledCornerSize * 2;
                 double horizontalTileCount = Math.Ceiling(sideWidth / pf.SideWidth / pf.Scale);
                 if (horizontalTileCount > 0)
                 {
@@ -240,7 +304,7 @@ namespace WpfPhotoFrame
                 else
                     pf.ViewPortHorizontal = new Rect(0, 0, 0, 0);
 
-                double sideHeight = pf.ActualHeight - pf.ScaledCornerSize * 2;
+                double sideHeight = pf.ActualHeight - pf.OverflowMargin * 2 - pf.ScaledCornerSize * 2;
                 double verticalTileCount = Math.Ceiling(sideHeight / pf.SideHeight / pf.Scale);
                 if (verticalTileCount > 0)
                 {
@@ -252,6 +316,5 @@ namespace WpfPhotoFrame
                     pf.ViewPortVertical = new Rect(0, 0, 0, 0);
             }
         }
-
     }
 }

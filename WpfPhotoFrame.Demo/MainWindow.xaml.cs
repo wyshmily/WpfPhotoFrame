@@ -21,8 +21,6 @@ namespace WpfPhotoFrame.Demo
             new PhotoFrameSource{ Source = "pack://application:,,,/WpfPhotoFrame.Demo;component/Images/TestFrame.png", CornerSize=60 },
             new PhotoFrameSource{ Source = "http://www.w3school.com.cn/i/border.png", CornerSize=26 },
         };
-
-
         public List<PhotoFrameSource> FrameList
         {
             get => frameList;
@@ -32,6 +30,23 @@ namespace WpfPhotoFrame.Demo
                 {
                     frameList = value;
                     RaisePropertyChanged(nameof(FrameList));
+                }
+            }
+        }
+
+        private List<PhotoFrameMode> modeList = new List<PhotoFrameMode>
+        {
+            PhotoFrameMode.Internal, PhotoFrameMode.Intermediate, PhotoFrameMode.Outernal
+        };
+        public List<PhotoFrameMode> ModeList
+        {
+            get => modeList;
+            set
+            {
+                if (modeList != value)
+                {
+                    modeList = value;
+                    RaisePropertyChanged(nameof(ModeList));
                 }
             }
         }

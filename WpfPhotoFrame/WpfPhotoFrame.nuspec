@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>wyshmily@126.com</authors>
+    <owners>$author$</owners>
+    <licenseUrl>http://LICENSE_URL_HERE_OR_DELETE_THIS_LINE</licenseUrl>
+    <projectUrl>https://github.com/wyshmily/WpfPhotoFrame</projectUrl>
+    <iconUrl>https://github.com/wyshmily/WpfPhotoFrame/raw/master/WpfPhotoFrame.Demo/Images/TestFrame.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>A easy way to apply a PhotoFrame to anything in WPF</description>
+    <releaseNotes>First Release</releaseNotes>
+    <copyright>Copyright 2018</copyright>
+    <tags>WPF Photo Frame</tags>
+  </metadata>
+</package>

@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:WpfPhotoFrame.Demo"
         xmlns:pf="http://wpf.wyshmily/photoframe"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="800">
+        Title="MainWindow" Height="800" Width="1000">
 
     <DockPanel>
         <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Height="50">
@@ -19,23 +19,22 @@
                 </ComboBox.ItemTemplate>
             </ComboBox>
             <TextBlock Text="Scale：" VerticalAlignment="Center" Margin="20 0 0 0"/>
-            <Slider x:Name="Slider" Minimum="0" Maximum="4" Value="1" VerticalAlignment="Center" Width="200" SmallChange="0.1" LargeChange="1" />
+            <Slider x:Name="Slider" Minimum="0" Maximum="4" Value="0.4" VerticalAlignment="Center" Width="200" SmallChange="0.1" LargeChange="1" />
             <TextBlock Text="{Binding Value, ElementName=Slider, StringFormat=F01}" VerticalAlignment="Center"/>
+            <TextBlock Text="Scale：" VerticalAlignment="Center" Margin="20 0 0 0"/>
+            <ComboBox x:Name="ModeComboBox" ItemsSource="{Binding ModeList}" VerticalAlignment="Center" VerticalContentAlignment="Center" Height="30" Width="120" SelectedIndex="1" />
         </StackPanel>
-        <pf:PhotoFrame Source="{Binding SelectedItem.Source, ElementName=FrameComboBox}" CornerSize="{Binding SelectedItem.CornerSize, ElementName=FrameComboBox}" Scale="{Binding Value, ElementName=Slider}">
-            <StackPanel Background="#7F000000">
-                <TextBlock Margin="0 100 0 0"
-                        Text="The PhotoFrame is a ContentControl, put anything inside it" 
-                        Foreground="White" 
-                        FontSize="20" 
-                        HorizontalAlignment="Center" 
-                        VerticalAlignment="Center"/>
+        
 
-                <pf:PhotoFrame Source="{Binding SelectedItem.Source, ElementName=FrameComboBox}" CornerSize="{Binding SelectedItem.CornerSize, ElementName=FrameComboBox}" Scale="0.4" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 50 0 0">
-                    <Image Source="Images/jangye.jpeg" Width="400" />
-                </pf:PhotoFrame>
-            </StackPanel>
-        </pf:PhotoFrame>
+        <Grid Background="#7F000000" Margin="40">
+            <pf:PhotoFrame Source="{Binding SelectedItem.Source, ElementName=FrameComboBox}" CornerSize="{Binding SelectedItem.CornerSize, ElementName=FrameComboBox}" Scale="{Binding Value, ElementName=Slider}" Mode="{Binding SelectedItem, ElementName=ModeComboBox}" />
+
+            <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Image Source="Images/jangye.jpeg" Width="400"/>
+                <pf:PhotoFrame Source="{Binding SelectedItem.Source, ElementName=FrameComboBox}" CornerSize="{Binding SelectedItem.CornerSize, ElementName=FrameComboBox}" Scale="{Binding Value, ElementName=Slider}" Mode="{Binding SelectedItem, ElementName=ModeComboBox}"/>
+            </Grid>
+        </Grid>
+
     </DockPanel>
 
 </Window>
