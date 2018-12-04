@@ -1,0 +1,32 @@
+﻿<Window x:Class="WpfPhotoFrame.Demo.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfPhotoFrame.Demo"
+        xmlns:pf="http://wpf.wyshmily/photoframe"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="600" Width="800">
+
+    <DockPanel>
+        <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Height="50">
+            <TextBlock Text="Source：" VerticalAlignment="Center"/>
+            <ComboBox x:Name="FrameComboBox" ItemsSource="{Binding FrameList}" VerticalAlignment="Center" MinHeight="46" Width="80" SelectedIndex="0">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <Image Source="{Binding Source}" Width="40" Height="40"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <TextBlock Text="Scale：" VerticalAlignment="Center" Margin="20 0 0 0"/>
+            <Slider x:Name="Slider" Minimum="0" Maximum="4" Value="1" VerticalAlignment="Center" Width="200" SmallChange="0.1" LargeChange="1" />
+            <TextBlock Text="{Binding Value, ElementName=Slider, StringFormat=F01}" VerticalAlignment="Center"/>
+        </StackPanel>
+        <pf:PhotoFrame Source="{Binding SelectedItem.Source, ElementName=FrameComboBox}" CornerSize="{Binding SelectedItem.CornerSize, ElementName=FrameComboBox}" Scale="{Binding Value, ElementName=Slider}">
+            <Grid Background="#7F000000">
+                <TextBlock Text="The PhotoFrame is a ContentControl, put anything inside it" Foreground="White" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Grid>
+        </pf:PhotoFrame>
+    </DockPanel>
+
+</Window>
