@@ -106,5 +106,11 @@
       <Name>WpfPhotoFrame</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\jangye.jpeg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\result.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

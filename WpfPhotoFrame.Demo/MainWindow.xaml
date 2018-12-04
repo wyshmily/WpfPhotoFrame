@@ -23,10 +23,20 @@
             <TextBlock Text="{Binding Value, ElementName=Slider, StringFormat=F01}" VerticalAlignment="Center"/>
         </StackPanel>
         <pf:PhotoFrame Source="{Binding SelectedItem.Source, ElementName=FrameComboBox}" CornerSize="{Binding SelectedItem.CornerSize, ElementName=FrameComboBox}" Scale="{Binding Value, ElementName=Slider}">
-            <Grid Background="#7F000000">
-                <TextBlock Text="The PhotoFrame is a ContentControl, put anything inside it" Foreground="White" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            </Grid>
+            <StackPanel Background="#7F000000">
+                <TextBlock Margin="0 100 0 0"
+                        Text="The PhotoFrame is a ContentControl, put anything inside it" 
+                        Foreground="White" 
+                        FontSize="20" 
+                        HorizontalAlignment="Center" 
+                        VerticalAlignment="Center"/>
+
+                <pf:PhotoFrame Source="{Binding SelectedItem.Source, ElementName=FrameComboBox}" CornerSize="{Binding SelectedItem.CornerSize, ElementName=FrameComboBox}" Scale="0.4" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 50 0 0">
+                    <Image Source="Images/jangye.jpeg" Width="400" />
+                </pf:PhotoFrame>
+            </StackPanel>
         </pf:PhotoFrame>
     </DockPanel>
 
 </Window>
+                        
