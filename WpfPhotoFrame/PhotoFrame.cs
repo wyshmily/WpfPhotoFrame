@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -11,7 +12,7 @@ namespace WpfPhotoFrame
         static PhotoFrame()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(PhotoFrame), new FrameworkPropertyMetadata(typeof(PhotoFrame)));
-            Image.SourceProperty.AddOwner(typeof(PhotoFrame));
+            Image.SourceProperty.AddOwner(typeof(PhotoFrame), new FrameworkPropertyMetadata(UpdatePhotoFrame));
         }
 
         public PhotoFrame()
@@ -34,13 +35,13 @@ namespace WpfPhotoFrame
         }
 
         /// <summary>
-        /// Size of Corner, desided by the source picture
+        /// Support different corner sizes, CornerSizeProperty is ignored if this property is setted, 
         /// </summary>
-        public static readonly DependencyProperty CornerSizeProperty = DependencyProperty.Register("CornerSize", typeof(double), typeof(PhotoFrame), new FrameworkPropertyMetadata(UpdatePhotoFrame));
-        public double CornerSize
+        public static readonly DependencyProperty CornerSizesProperty = DependencyProperty.Register("CornerSizes", typeof(DoubleCollection), typeof(PhotoFrame), new FrameworkPropertyMetadata(UpdatePhotoFrame));
+        public DoubleCollection CornerSizes
         {
-            get => (double)GetValue(CornerSizeProperty);
-            set => SetValue(CornerSizeProperty, value);
+            get => (DoubleCollection)GetValue(CornerSizesProperty);
+            set => SetValue(CornerSizesProperty, value);
         }
 
         /// <summary>
@@ -64,67 +65,137 @@ namespace WpfPhotoFrame
         }
 
         /// <summary>
-        /// corner size after scale
+        /// size of topleft corner
         /// </summary>
-        public static readonly DependencyProperty ScaledCornerSizeProperty = DependencyProperty.Register("ScaledCornerSize", typeof(double), typeof(PhotoFrame));
-        public double ScaledCornerSize
+        public static readonly DependencyProperty TopLeftSizeProperty = DependencyProperty.Register("TopLeftSize", typeof(Size), typeof(PhotoFrame));
+        public Size TopLeftSize
         {
-            get => (double)GetValue(ScaledCornerSizeProperty);
-            private set => SetValue(ScaledCornerSizeProperty, value);
+            get => (Size)GetValue(TopLeftSizeProperty);
+            private set => SetValue(TopLeftSizeProperty, value);
         }
 
         /// <summary>
-        /// max corner width after scale
+        /// size of topright corner
         /// </summary>
-        public static readonly DependencyProperty MaxCornerWidthProperty = DependencyProperty.Register("MaxCornerWidth", typeof(double), typeof(PhotoFrame));
-        public double MaxCornerWidth
+        public static readonly DependencyProperty TopRightSizeProperty = DependencyProperty.Register("TopRightSize", typeof(Size), typeof(PhotoFrame));
+        public Size TopRightSize
         {
-            get => (double)GetValue(MaxCornerWidthProperty);
-            private set => SetValue(MaxCornerWidthProperty, value);
+            get => (Size)GetValue(TopRightSizeProperty);
+            private set => SetValue(TopRightSizeProperty, value);
         }
 
         /// <summary>
-        /// max corner height after scale
+        /// size of bottomright corner
         /// </summary>
-        public static readonly DependencyProperty MaxCornerHeightProperty = DependencyProperty.Register("MaxCornerHeight", typeof(double), typeof(PhotoFrame));
-        public double MaxCornerHeight
+        public static readonly DependencyProperty BottomRightSizeProperty = DependencyProperty.Register("BottomRightSize", typeof(Size), typeof(PhotoFrame));
+        public Size BottomRightSize
         {
-            get => (double)GetValue(MaxCornerHeightProperty);
-            private set => SetValue(MaxCornerHeightProperty, value);
+            get => (Size)GetValue(BottomRightSizeProperty);
+            private set => SetValue(BottomRightSizeProperty, value);
+        }
+
+        /// <summary>
+        /// size of bottomleft corner
+        /// </summary>
+        public static readonly DependencyProperty BottomLeftSizeProperty = DependencyProperty.Register("BottomLeftSize", typeof(Size), typeof(PhotoFrame));
+        public Size BottomLeftSize
+        {
+            get => (Size)GetValue(BottomLeftSizeProperty);
+            private set => SetValue(BottomLeftSizeProperty, value);
+        }
+
+        /// <summary>
+        /// top height after scale
+        /// </summary>
+        public static readonly DependencyProperty TopHeightProperty = DependencyProperty.Register("TopHeight", typeof(double), typeof(PhotoFrame));
+        public double TopHeight
+        {
+            get => (double)GetValue(TopHeightProperty);
+            private set => SetValue(TopHeightProperty, value);
+        }
+
+        /// <summary>
+        /// bottom height after scale
+        /// </summary>
+        public static readonly DependencyProperty BottomHeightProperty = DependencyProperty.Register("BottomHeight", typeof(double), typeof(PhotoFrame));
+        public double BottomHeight
+        {
+            get => (double)GetValue(BottomHeightProperty);
+            private set => SetValue(BottomHeightProperty, value);
+        }
+
+        /// <summary>
+        /// left width after scale
+        /// </summary>
+        public static readonly DependencyProperty LeftWidthProperty = DependencyProperty.Register("LeftWidth", typeof(double), typeof(PhotoFrame));
+        public double LeftWidth
+        {
+            get => (double)GetValue(LeftWidthProperty);
+            private set => SetValue(LeftWidthProperty, value);
+        }
+
+        /// <summary>
+        /// right width after scale
+        /// </summary>
+        public static readonly DependencyProperty RightWidthProperty = DependencyProperty.Register("RightWidth", typeof(double), typeof(PhotoFrame));
+        public double RightWidth
+        {
+            get => (double)GetValue(RightWidthProperty);
+            private set => SetValue(RightWidthProperty, value);
         }
 
         /// <summary>
         /// overflow margin decided by ModeProperty
         /// </summary>
-        public static readonly DependencyProperty OverflowMarginProperty = DependencyProperty.Register("OverflowMargin", typeof(double), typeof(PhotoFrame));
-        public double OverflowMargin
+        public static readonly DependencyProperty OverflowMarginProperty = DependencyProperty.Register("OverflowMargin", typeof(Thickness), typeof(PhotoFrame));
+        public Thickness OverflowMargin
         {
-            get => (double)GetValue(OverflowMarginProperty);
+            get => (Thickness)GetValue(OverflowMarginProperty);
             private set => SetValue(OverflowMarginProperty, value);
         }
 
         /// <summary>
-        /// 剩余边宽
+        /// top size of after crop before scale
         /// </summary>
-        public static readonly DependencyProperty SideWidthProperty = DependencyProperty.Register("SideWidth", typeof(double), typeof(PhotoFrame));
-        public double SideWidth
+        public static readonly DependencyProperty TopSizeProperty = DependencyProperty.Register("TopSize", typeof(Size), typeof(PhotoFrame));
+        public Size TopSize
         {
-            get => (double)GetValue(SideWidthProperty);
-            private set => SetValue(SideWidthProperty, value);
+            get => (Size)GetValue(TopSizeProperty);
+            private set => SetValue(TopSizeProperty, value);
         }
 
         /// <summary>
-        /// 剩余边高
+        /// bottom size of after crop before scale
         /// </summary>
-        public static readonly DependencyProperty SideHeightProperty = DependencyProperty.Register("SideHeight", typeof(double), typeof(PhotoFrame));
-        public double SideHeight
+        public static readonly DependencyProperty BottomSizeProperty = DependencyProperty.Register("BottomSize", typeof(Size), typeof(PhotoFrame));
+        public Size BottomSize
         {
-            get => (double)GetValue(SideHeightProperty);
-            private set => SetValue(SideHeightProperty, value);
+            get => (Size)GetValue(BottomSizeProperty);
+            private set => SetValue(BottomSizeProperty, value);
         }
 
         /// <summary>
-        /// 图片显示宽度
+        /// left size of after crop before scale
+        /// </summary>
+        public static readonly DependencyProperty LeftSizeProperty = DependencyProperty.Register("LeftSize", typeof(Size), typeof(PhotoFrame));
+        public Size LeftSize
+        {
+            get => (Size)GetValue(LeftSizeProperty);
+            private set => SetValue(LeftSizeProperty, value);
+        }
+
+        /// <summary>
+        /// right size of after crop before scale
+        /// </summary>
+        public static readonly DependencyProperty RightSizeProperty = DependencyProperty.Register("RightSize", typeof(Size), typeof(PhotoFrame));
+        public Size RightSize
+        {
+            get => (Size)GetValue(RightSizeProperty);
+            private set => SetValue(RightSizeProperty, value);
+        }
+
+        /// <summary>
+        /// Image Width after scale
         /// </summary>
         public static readonly DependencyProperty ImageWidthProperty = DependencyProperty.Register("ImageWidth", typeof(double), typeof(PhotoFrame));
         public double ImageWidth
@@ -134,7 +205,7 @@ namespace WpfPhotoFrame
         }
 
         /// <summary>
-        /// 图片显示高度
+        /// Image Height after scale
         /// </summary>
         public static readonly DependencyProperty ImageHeightProperty = DependencyProperty.Register("ImageHeight", typeof(double), typeof(PhotoFrame));
         public double ImageHeight
@@ -184,23 +255,43 @@ namespace WpfPhotoFrame
         }
 
         /// <summary>
-        /// ViewPort For Top and Bottom
+        /// ViewPort For Top 
         /// </summary>
-        public static readonly DependencyProperty ViewPortHorizontalProperty = DependencyProperty.Register("ViewPortHorizontal", typeof(Rect), typeof(PhotoFrame));
-        public Rect ViewPortHorizontal
+        public static readonly DependencyProperty ViewPortTopProperty = DependencyProperty.Register("ViewPortTop", typeof(Rect), typeof(PhotoFrame));
+        public Rect ViewPortTop
         {
-            get => (Rect)GetValue(ViewPortHorizontalProperty);
-            private set => SetValue(ViewPortHorizontalProperty, value);
+            get => (Rect)GetValue(ViewPortTopProperty);
+            private set => SetValue(ViewPortTopProperty, value);
         }
 
         /// <summary>
-        /// ViewPort For Left and Right
+        /// ViewPort For Bottom 
         /// </summary>
-        public static readonly DependencyProperty ViewPortVerticalProperty = DependencyProperty.Register("ViewPortVertical", typeof(Rect), typeof(PhotoFrame));
-        public Rect ViewPortVertical
+        public static readonly DependencyProperty ViewPortBottomProperty = DependencyProperty.Register("ViewPortBottom", typeof(Rect), typeof(PhotoFrame));
+        public Rect ViewPortBottom
         {
-            get => (Rect)GetValue(ViewPortVerticalProperty);
-            private set => SetValue(ViewPortVerticalProperty, value);
+            get => (Rect)GetValue(ViewPortBottomProperty);
+            private set => SetValue(ViewPortBottomProperty, value);
+        }
+
+        /// <summary>
+        /// ViewPort For Left 
+        /// </summary>
+        public static readonly DependencyProperty ViewPortLeftProperty = DependencyProperty.Register("ViewPortLeft", typeof(Rect), typeof(PhotoFrame));
+        public Rect ViewPortLeft
+        {
+            get => (Rect)GetValue(ViewPortLeftProperty);
+            private set => SetValue(ViewPortLeftProperty, value);
+        }
+
+        /// <summary>
+        /// ViewPort For Right 
+        /// </summary>
+        public static readonly DependencyProperty ViewPortRightProperty = DependencyProperty.Register("ViewPortRight", typeof(Rect), typeof(PhotoFrame));
+        public Rect ViewPortRight
+        {
+            get => (Rect)GetValue(ViewPortRightProperty);
+            private set => SetValue(ViewPortRightProperty, value);
         }
 
         /// <summary>
@@ -250,22 +341,45 @@ namespace WpfPhotoFrame
         /// <param name="e"></param>
         private static void UpdatePhotoFrame(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (d is PhotoFrame pf && pf.CornerSize > 0 && pf.Source is BitmapSource bitmapSource && pf.ActualWidth > 0 && pf.ActualHeight > 0)
+            if (d is PhotoFrame pf && pf.CornerSizes?.Count > 0 && pf.Source is BitmapSource bitmapSource && pf.ActualWidth > 0 && pf.ActualHeight > 0)
             {
-                pf.ScaledCornerSize = pf.Scale * pf.CornerSize;
-                pf.MaxCornerWidth = (pf.ActualWidth + pf.ScaledCornerSize) / 2;
-                pf.MaxCornerHeight = (pf.ActualHeight + pf.ScaledCornerSize) / 2;
+                Size topLeftSize = new Size(pf.CornerSizes[0], pf.CornerSizes[0]);
+                Size topRightSize = new Size(pf.CornerSizes[0], pf.CornerSizes[0]);
+                Size bottomRightSize = new Size(pf.CornerSizes[0], pf.CornerSizes[0]);
+                Size bottomLeftSize = new Size(pf.CornerSizes[0], pf.CornerSizes[0]);
+
+                if (pf.CornerSizes.Count >= 2)
+                {
+                    topLeftSize.Height = pf.CornerSizes[1];
+                    topRightSize.Height = pf.CornerSizes[1];
+                    bottomRightSize.Height = pf.CornerSizes[1];
+                    bottomLeftSize.Height = pf.CornerSizes[1];
+                }
+                if (pf.CornerSizes.Count >= 4)
+                {
+                    topRightSize = new Size(pf.CornerSizes[2], pf.CornerSizes[3]);
+                    bottomLeftSize = new Size(pf.CornerSizes[2], pf.CornerSizes[3]);
+                }
+                if (pf.CornerSizes.Count >= 6)
+                    bottomRightSize = new Size(pf.CornerSizes[4], pf.CornerSizes[5]);
+                if (pf.CornerSizes.Count >= 8)
+                    bottomLeftSize = new Size(pf.CornerSizes[6], pf.CornerSizes[7]);
+
+                pf.TopLeftSize = new Size(topLeftSize.Width * pf.Scale, topLeftSize.Height * pf.Scale);
+                pf.TopRightSize = new Size(topRightSize.Width * pf.Scale, topRightSize.Height * pf.Scale); ;
+                pf.BottomRightSize = new Size(bottomRightSize.Width * pf.Scale, bottomRightSize.Height * pf.Scale);
+                pf.BottomLeftSize = new Size(bottomLeftSize.Width * pf.Scale, bottomLeftSize.Height * pf.Scale);
 
                 switch (pf.Mode)
                 {
                     case PhotoFrameMode.Internal:
-                        pf.OverflowMargin = 0;
+                        pf.OverflowMargin = new Thickness(0);
                         break;
                     case PhotoFrameMode.Outernal:
-                        pf.OverflowMargin = -pf.ScaledCornerSize;
+                        pf.OverflowMargin = new Thickness(-new[] { pf.TopLeftSize.Width, pf.TopRightSize.Width, pf.BottomRightSize.Width, pf.BottomLeftSize.Width }.Max(), -new[] { pf.TopLeftSize.Height, pf.TopRightSize.Height, pf.BottomRightSize.Height, pf.BottomLeftSize.Height }.Max(), -new[] { pf.TopLeftSize.Width, pf.TopRightSize.Width, pf.BottomRightSize.Width, pf.BottomLeftSize.Width }.Max(), -new[] { pf.TopLeftSize.Height, pf.TopRightSize.Height, pf.BottomRightSize.Height, pf.BottomLeftSize.Height }.Max());
                         break;
                     case PhotoFrameMode.Intermediate:
-                        pf.OverflowMargin = -pf.ScaledCornerSize / 2;
+                        pf.OverflowMargin = new Thickness(-new[] { pf.TopLeftSize.Width, pf.TopRightSize.Width, pf.BottomRightSize.Width, pf.BottomLeftSize.Width }.Max() / 2, -new[] { pf.TopLeftSize.Height, pf.TopRightSize.Height, pf.BottomRightSize.Height, pf.BottomLeftSize.Height }.Max() / 2, -new[] { pf.TopLeftSize.Width, pf.TopRightSize.Width, pf.BottomRightSize.Width, pf.BottomLeftSize.Width }.Max() / 2, -new[] { pf.TopLeftSize.Height, pf.TopRightSize.Height, pf.BottomRightSize.Height, pf.BottomLeftSize.Height }.Max() / 2);
                         break;
                 }
 
@@ -276,34 +390,59 @@ namespace WpfPhotoFrame
                 double scaledPixelHeight = bitmapSource.PixelHeight * pf.Scale;
 
                 pf.ViewPortTopLeft = new Rect(0, 0, scaledPixelWidth, scaledPixelHeight);
-                pf.ViewPortTopRight = new Rect(pf.ScaledCornerSize - scaledPixelWidth, 0, scaledPixelWidth, scaledPixelHeight);
-                pf.ViewPortBottomLeft = new Rect(0, pf.ScaledCornerSize - scaledPixelHeight, scaledPixelWidth, scaledPixelHeight);
-                pf.ViewPortBottomRight = new Rect(pf.ScaledCornerSize - scaledPixelWidth, pf.ScaledCornerSize - scaledPixelHeight, scaledPixelWidth, scaledPixelHeight);
+                pf.ViewPortTopRight = new Rect(pf.TopRightSize.Width - scaledPixelWidth, 0, scaledPixelWidth, scaledPixelHeight);
+                pf.ViewPortBottomLeft = new Rect(0, pf.BottomLeftSize.Height - scaledPixelHeight, scaledPixelWidth, scaledPixelHeight);
+                pf.ViewPortBottomRight = new Rect(pf.BottomRightSize.Width - scaledPixelWidth, pf.BottomRightSize.Height - scaledPixelHeight, scaledPixelWidth, scaledPixelHeight);
 
-                pf.SideWidth = bitmapSource.PixelWidth - pf.CornerSize * 2;
-                pf.SideHeight = bitmapSource.PixelHeight - pf.CornerSize * 2;
+                pf.TopHeight = Math.Min(pf.TopLeftSize.Height, pf.TopRightSize.Height);
+                pf.BottomHeight = Math.Min(pf.BottomLeftSize.Height, pf.BottomRightSize.Height);
+                pf.LeftWidth = Math.Min(pf.TopLeftSize.Width, pf.BottomLeftSize.Width);
+                pf.RightWidth = Math.Min(pf.TopRightSize.Width, pf.BottomRightSize.Width);
 
-                double sideWidth = pf.ActualWidth - pf.OverflowMargin * 2 - pf.ScaledCornerSize * 2;
-                double horizontalTileCount = Math.Round(sideWidth / pf.SideWidth / pf.Scale, 0);
-                if (horizontalTileCount > 0)
+                pf.TopSize = new Size(Math.Max(bitmapSource.PixelWidth - topLeftSize.Width - topRightSize.Width, 0), Math.Min(topLeftSize.Height, topRightSize.Height));
+                pf.BottomSize = new Size(Math.Max(bitmapSource.PixelWidth - bottomLeftSize.Width - bottomRightSize.Width, 0), Math.Min(bottomLeftSize.Height, bottomRightSize.Height));
+                pf.LeftSize = new Size(Math.Min(topLeftSize.Width, bottomLeftSize.Width), Math.Max(bitmapSource.PixelHeight - topLeftSize.Height - bottomLeftSize.Height, 0));
+                pf.RightSize = new Size(Math.Min(topRightSize.Width, bottomRightSize.Width), Math.Max(bitmapSource.PixelHeight - topRightSize.Height - bottomRightSize.Height, 0));
+
+                double topSideWidth = pf.ActualWidth - pf.OverflowMargin.Left - pf.OverflowMargin.Right - pf.TopLeftSize.Width - pf.TopRightSize.Width;
+                double topTileCount = Math.Round(topSideWidth / pf.TopSize.Width / pf.Scale, 0);
+                if (topTileCount > 0)
                 {
-                    pf.ViewPortHorizontal = new Rect(0, 0, sideWidth / horizontalTileCount, pf.ScaledCornerSize);
-                    pf.MarginTop = new Thickness(-pf.CornerSize, 0, 0, 0);
-                    pf.MarginBottom = new Thickness(-pf.CornerSize, pf.CornerSize - pf.ImageHeight, 0, 0);
+                    pf.ViewPortTop = new Rect(0, 0, topSideWidth / topTileCount, pf.TopHeight);
+                    pf.MarginTop = new Thickness(-topLeftSize.Width, 0, 0, 0);
                 }
                 else
-                    pf.ViewPortHorizontal = new Rect(0, 0, 0, 0);
+                    pf.ViewPortTop = new Rect(0, 0, 0, 0);
 
-                double sideHeight = pf.ActualHeight - pf.OverflowMargin * 2 - pf.ScaledCornerSize * 2;
-                double verticalTileCount = Math.Round(sideHeight / pf.SideHeight / pf.Scale, 0);
-                if (verticalTileCount > 0)
+                double bottomSideWidth = pf.ActualWidth - pf.OverflowMargin.Left - pf.OverflowMargin.Right - pf.BottomLeftSize.Width - pf.BottomRightSize.Width;
+                double bottomTileCount = Math.Round(bottomSideWidth / pf.BottomSize.Width / pf.Scale, 0);
+                if (bottomTileCount > 0)
                 {
-                    pf.ViewPortVertical = new Rect(0, 0, pf.ScaledCornerSize, sideHeight / verticalTileCount);
-                    pf.MarginLeft = new Thickness(0, -pf.CornerSize, 0, 0);
-                    pf.MarginRight = new Thickness(pf.CornerSize - pf.ImageWidth, -pf.CornerSize, 0, 0);
+                    pf.ViewPortBottom = new Rect(0, 0, bottomSideWidth / bottomTileCount, pf.BottomHeight);
+                    pf.MarginBottom = new Thickness(-topLeftSize.Width, pf.BottomSize.Height - pf.ImageHeight, 0, 0);
                 }
                 else
-                    pf.ViewPortVertical = new Rect(0, 0, 0, 0);
+                    pf.ViewPortBottom = new Rect(0, 0, 0, 0);
+
+                double leftSideHeight = pf.ActualHeight - pf.OverflowMargin.Top - pf.OverflowMargin.Bottom - pf.TopLeftSize.Height - pf.BottomLeftSize.Height;
+                double leftTileCount = Math.Round(leftSideHeight / pf.LeftSize.Height / pf.Scale, 0);
+                if (leftTileCount > 0)
+                {
+                    pf.ViewPortLeft = new Rect(0, 0, pf.LeftWidth, leftSideHeight / leftTileCount);
+                    pf.MarginLeft = new Thickness(0, -topLeftSize.Height, 0, 0);
+                }
+                else
+                    pf.ViewPortLeft = new Rect(0, 0, 0, 0);
+
+                double rightSideHeight = pf.ActualHeight - pf.OverflowMargin.Top - pf.OverflowMargin.Bottom - pf.TopRightSize.Height - pf.BottomRightSize.Height;
+                double rightTileCount = Math.Round(rightSideHeight / pf.RightSize.Height / pf.Scale, 0);
+                if (rightTileCount > 0)
+                {
+                    pf.ViewPortRight = new Rect(0, 0, pf.RightWidth, rightSideHeight / rightTileCount);
+                    pf.MarginRight = new Thickness(0, -topRightSize.Height, 0, 0);
+                }
+                else
+                    pf.ViewPortRight = new Rect(0, 0, 0, 0);
             }
         }
     }

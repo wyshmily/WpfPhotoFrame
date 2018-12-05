@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows;
+using System.Windows.Media;
 
 namespace WpfPhotoFrame.Demo
 {
@@ -18,8 +19,8 @@ namespace WpfPhotoFrame.Demo
 
         private List<PhotoFrameSource> frameList = new List<PhotoFrameSource>
         {
-            new PhotoFrameSource{ Source = "pack://application:,,,/WpfPhotoFrame.Demo;component/Images/TestFrame.png", CornerSize=60 },
-            new PhotoFrameSource{ Source = "http://www.w3school.com.cn/i/border.png", CornerSize=26 },
+            new PhotoFrameSource{ Source = "pack://application:,,,/WpfPhotoFrame.Demo;component/Images/TestFrame.png", CornerSizes=new DoubleCollection(){ 60 } },
+            new PhotoFrameSource{ Source = "http://www.w3school.com.cn/i/border.png", CornerSizes=new DoubleCollection(){ 26 } },
         };
         public List<PhotoFrameSource> FrameList
         {

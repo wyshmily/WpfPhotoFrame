@@ -7,104 +7,117 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:PhotoFrame}">
-                    <Grid Width="{TemplateBinding Width}" Height="{TemplateBinding Height}" Background="{TemplateBinding Background}">
-                        <ContentPresenter Width="{TemplateBinding Width}" Height="{TemplateBinding Height}"/>
-                        <Grid IsHitTestVisible="False" Margin="{Binding OverflowMargin, RelativeSource={RelativeSource TemplatedParent}}">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="{Binding ScaledCornerSize, RelativeSource={RelativeSource TemplatedParent}}" MaxHeight="{Binding MaxCornerHeight, RelativeSource={RelativeSource TemplatedParent}}"/>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="{Binding ScaledCornerSize, RelativeSource={RelativeSource TemplatedParent}}" MaxHeight="{Binding MaxCornerHeight, RelativeSource={RelativeSource TemplatedParent}}"/>
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="{Binding ScaledCornerSize, RelativeSource={RelativeSource TemplatedParent}}" MaxWidth="{Binding MaxCornerWidth, RelativeSource={RelativeSource TemplatedParent}}"/>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="{Binding ScaledCornerSize, RelativeSource={RelativeSource TemplatedParent}}" MaxWidth="{Binding MaxCornerWidth, RelativeSource={RelativeSource TemplatedParent}}"/>
-                            </Grid.ColumnDefinitions>
-
-                            <!--TopLeft-->
-                            <Grid Width="{Binding ScaledCornerSize, RelativeSource={RelativeSource TemplatedParent}}" Height="{Binding ScaledCornerSize, RelativeSource={RelativeSource TemplatedParent}}" VerticalAlignment="Top" HorizontalAlignment="Left">
-                                <Grid.Background>
-                                    <ImageBrush ImageSource="{Binding Source, RelativeSource={RelativeSource TemplatedParent}}" TileMode="Tile" Viewport="{Binding ViewPortTopLeft, RelativeSource={RelativeSource TemplatedParent}}" ViewportUnits="Absolute" />
-                                </Grid.Background>
-                            </Grid>
-                            <!--TopRight-->
-                            <Grid Grid.Column="2" Width="{Binding ScaledCornerSize, RelativeSource={RelativeSource TemplatedParent}}" Height="{Binding ScaledCornerSize, RelativeSource={RelativeSource TemplatedParent}}" VerticalAlignment="Top" HorizontalAlignment="Right">
-                                <Grid.Background>
-                                    <ImageBrush ImageSource="{Binding Source, RelativeSource={RelativeSource TemplatedParent}}" TileMode="Tile" Viewport="{Binding ViewPortTopRight, RelativeSource={RelativeSource TemplatedParent}}" ViewportUnits="Absolute" />
-                                </Grid.Background>
-                            </Grid>
-                            <!--BottomLeft-->
-                            <Grid Grid.Row="2" Width="{Binding ScaledCornerSize, RelativeSource={RelativeSource TemplatedParent}}" Height="{Binding ScaledCornerSize, RelativeSource={RelativeSource TemplatedParent}}" VerticalAlignment="Bottom" HorizontalAlignment="Left">
-                                <Grid.Background>
-                                    <ImageBrush ImageSource="{Binding Source, RelativeSource={RelativeSource TemplatedParent}}" TileMode="Tile" Viewport="{Binding ViewPortBottomLeft, RelativeSource={RelativeSource TemplatedParent}}" ViewportUnits="Absolute" />
-                                </Grid.Background>
-                            </Grid>
-                            <!--BottomRight-->
-                            <Grid Grid.Row="2" Grid.Column="2" Width="{Binding ScaledCornerSize, RelativeSource={RelativeSource TemplatedParent}}" Height="{Binding ScaledCornerSize, RelativeSource={RelativeSource TemplatedParent}}" VerticalAlignment="Bottom" HorizontalAlignment="Right">
-                                <Grid.Background>
-                                    <ImageBrush ImageSource="{Binding Source, RelativeSource={RelativeSource TemplatedParent}}" TileMode="Tile" Viewport="{Binding ViewPortBottomRight, RelativeSource={RelativeSource TemplatedParent}}" ViewportUnits="Absolute" />
-                                </Grid.Background>
-                            </Grid>
-                            <!--Top-->
-                            <Grid Grid.Column="1">
-                                <Grid.Background>
-                                    <VisualBrush TileMode="Tile" Viewport="{Binding ViewPortHorizontal, RelativeSource={RelativeSource TemplatedParent}}" ViewportUnits="Absolute">
-                                        <VisualBrush.Visual>
-                                            <Grid Width="{Binding SideWidth, RelativeSource={RelativeSource TemplatedParent}}" Height="{Binding CornerSize, RelativeSource={RelativeSource TemplatedParent}}" ClipToBounds="True">
-                                                <Image Source="{Binding Source, RelativeSource={RelativeSource TemplatedParent}}" Width="{Binding ImageWidth, RelativeSource={RelativeSource TemplatedParent}}" Height="{Binding ImageHeight, RelativeSource={RelativeSource TemplatedParent}}" Margin="{Binding MarginTop, RelativeSource={RelativeSource TemplatedParent}}"/>
+                    <Grid Background="{TemplateBinding Background}" SnapsToDevicePixels="False" RenderOptions.BitmapScalingMode="Fant" >
+                        <ContentPresenter x:Name="content" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}"/>
+                        <Grid Margin="{Binding OverflowMargin, RelativeSource={RelativeSource TemplatedParent}}" IsHitTestVisible="False">
+                            <Grid x:Name="Grid1">
+                                <Grid Width="{Binding ActualWidth, ElementName=Grid1}" Height="{Binding ActualHeight, ElementName=Grid1}">
+                                    <Grid>
+                                        <!--TopLeft-->
+                                        <Grid Width="{Binding TopLeftSize.Width, RelativeSource={RelativeSource TemplatedParent}}" Height="{Binding TopLeftSize.Height, RelativeSource={RelativeSource TemplatedParent}}" HorizontalAlignment="Left" VerticalAlignment="Top">
+                                            <Grid.Background>
+                                                <ImageBrush ImageSource="{Binding Source, RelativeSource={RelativeSource TemplatedParent}}" TileMode="Tile" Viewport="{Binding ViewPortTopLeft, RelativeSource={RelativeSource TemplatedParent}}" ViewportUnits="Absolute" />
+                                            </Grid.Background>
+                                        </Grid>
+                                        <!--TopRight-->
+                                        <Grid Width="{Binding TopRightSize.Width, RelativeSource={RelativeSource TemplatedParent}}" Height="{Binding TopRightSize.Height, RelativeSource={RelativeSource TemplatedParent}}" HorizontalAlignment="Right" VerticalAlignment="Top">
+                                            <Grid.Background>
+                                                <ImageBrush ImageSource="{Binding Source, RelativeSource={RelativeSource TemplatedParent}}" TileMode="Tile" Viewport="{Binding ViewPortTopRight, RelativeSource={RelativeSource TemplatedParent}}" ViewportUnits="Absolute" />
+                                            </Grid.Background>
+                                        </Grid>
+                                        <!--BottomRight-->
+                                        <Grid Width="{Binding BottomRightSize.Width, RelativeSource={RelativeSource TemplatedParent}}" Height="{Binding BottomRightSize.Height, RelativeSource={RelativeSource TemplatedParent}}" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                                            <Grid.Background>
+                                                <ImageBrush ImageSource="{Binding Source, RelativeSource={RelativeSource TemplatedParent}}" TileMode="Tile" Viewport="{Binding ViewPortBottomRight, RelativeSource={RelativeSource TemplatedParent}}" ViewportUnits="Absolute" />
+                                            </Grid.Background>
+                                        </Grid>
+                                        <!--BottomLeft-->
+                                        <Grid Width="{Binding BottomLeftSize.Width, RelativeSource={RelativeSource TemplatedParent}}" Height="{Binding BottomLeftSize.Height, RelativeSource={RelativeSource TemplatedParent}}" HorizontalAlignment="Left" VerticalAlignment="Bottom">
+                                            <Grid.Background>
+                                                <ImageBrush ImageSource="{Binding Source, RelativeSource={RelativeSource TemplatedParent}}" TileMode="Tile" Viewport="{Binding ViewPortBottomLeft, RelativeSource={RelativeSource TemplatedParent}}" ViewportUnits="Absolute" />
+                                            </Grid.Background>
+                                        </Grid>
+                                        <!--Top-->
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="{Binding TopLeftSize.Width, RelativeSource={RelativeSource TemplatedParent}}" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="{Binding TopRightSize.Width, RelativeSource={RelativeSource TemplatedParent}}" />
+                                            </Grid.ColumnDefinitions>
+                                            <Grid Grid.Column="1" VerticalAlignment="Top" Height="{Binding TopHeight, RelativeSource={RelativeSource TemplatedParent}}">
+                                                <Grid.Background>
+                                                    <VisualBrush TileMode="Tile" Viewport="{Binding ViewPortTop, RelativeSource={RelativeSource TemplatedParent}}" ViewportUnits="Absolute">
+                                                        <VisualBrush.Visual>
+                                                            <Grid Width="{Binding TopSize.Width, RelativeSource={RelativeSource TemplatedParent}}" Height="{Binding TopSize.Height, RelativeSource={RelativeSource TemplatedParent}}" ClipToBounds="True">
+                                                                <Image Source="{Binding Source, RelativeSource={RelativeSource TemplatedParent}}" Width="{Binding ImageWidth, RelativeSource={RelativeSource TemplatedParent}}" Height="{Binding ImageHeight, RelativeSource={RelativeSource TemplatedParent}}" Margin="{Binding MarginTop, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                                            </Grid>
+                                                        </VisualBrush.Visual>
+                                                    </VisualBrush>
+                                                </Grid.Background>
                                             </Grid>
-                                        </VisualBrush.Visual>
-                                    </VisualBrush>
-                                </Grid.Background>
-                            </Grid>
-                            <!--Bottom-->
-                            <Grid Grid.Row="2" Grid.Column="1">
-                                <Grid.Background>
-                                    <VisualBrush TileMode="Tile" Viewport="{Binding ViewPortHorizontal, RelativeSource={RelativeSource TemplatedParent}}" ViewportUnits="Absolute">
-                                        <VisualBrush.Visual>
-                                            <Grid Width="{Binding SideWidth, RelativeSource={RelativeSource TemplatedParent}}" Height="{Binding CornerSize, RelativeSource={RelativeSource TemplatedParent}}" ClipToBounds="True">
-                                                <Image Source="{Binding Source, RelativeSource={RelativeSource TemplatedParent}}" Width="{Binding ImageWidth, RelativeSource={RelativeSource TemplatedParent}}" Height="{Binding ImageHeight, RelativeSource={RelativeSource TemplatedParent}}" Margin="{Binding MarginBottom, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                        </Grid>
+                                        <!--Bottom-->
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="{Binding BottomLeftSize.Width, RelativeSource={RelativeSource TemplatedParent}}" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="{Binding BottomRightSize.Width, RelativeSource={RelativeSource TemplatedParent}}" />
+                                            </Grid.ColumnDefinitions>
+                                            <Grid Grid.Column="1" VerticalAlignment="Bottom" Height="{Binding BottomHeight, RelativeSource={RelativeSource TemplatedParent}}">
+                                                <Grid.Background>
+                                                    <VisualBrush TileMode="Tile" Viewport="{Binding ViewPortBottom, RelativeSource={RelativeSource TemplatedParent}}" ViewportUnits="Absolute">
+                                                        <VisualBrush.Visual>
+                                                            <Grid Width="{Binding BottomSize.Width, RelativeSource={RelativeSource TemplatedParent}}" Height="{Binding BottomSize.Height, RelativeSource={RelativeSource TemplatedParent}}" ClipToBounds="True">
+                                                                <Image Source="{Binding Source, RelativeSource={RelativeSource TemplatedParent}}" Width="{Binding ImageWidth, RelativeSource={RelativeSource TemplatedParent}}" Height="{Binding ImageHeight, RelativeSource={RelativeSource TemplatedParent}}" Margin="{Binding MarginBottom, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                                            </Grid>
+                                                        </VisualBrush.Visual>
+                                                    </VisualBrush>
+                                                </Grid.Background>
                                             </Grid>
-                                        </VisualBrush.Visual>
-                                    </VisualBrush>
-                                </Grid.Background>
-                            </Grid>
-                            <!--Left-->
-                            <Grid Grid.Row="1">
-                                <Grid.Background>
-                                    <VisualBrush TileMode="Tile" Viewport="{Binding ViewPortVertical, RelativeSource={RelativeSource TemplatedParent}}" ViewportUnits="Absolute">
-                                        <VisualBrush.Visual>
-                                            <Grid Width="{Binding SideWidth, RelativeSource={RelativeSource TemplatedParent}}" Height="{Binding CornerSize, RelativeSource={RelativeSource TemplatedParent}}" ClipToBounds="True">
-                                                <Image Source="{Binding Source, RelativeSource={RelativeSource TemplatedParent}}" Width="{Binding ImageWidth, RelativeSource={RelativeSource TemplatedParent}}" Height="{Binding ImageHeight, RelativeSource={RelativeSource TemplatedParent}}" Margin="{Binding MarginLeft, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                        </Grid>
+                                        <!--Left-->
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="{Binding TopLeftSize.Height, RelativeSource={RelativeSource TemplatedParent}}" />
+                                                <RowDefinition Height="*" />
+                                                <RowDefinition Height="{Binding BottomLeftSize.Height, RelativeSource={RelativeSource TemplatedParent}}" />
+                                            </Grid.RowDefinitions>
+                                            <Grid Grid.Row="1" HorizontalAlignment="Left" Width="{Binding LeftWidth, RelativeSource={RelativeSource TemplatedParent}}">
+                                                <Grid.Background>
+                                                    <VisualBrush TileMode="Tile" Viewport="{Binding ViewPortLeft, RelativeSource={RelativeSource TemplatedParent}}" ViewportUnits="Absolute">
+                                                        <VisualBrush.Visual>
+                                                            <Grid Width="{Binding LeftSize.Width, RelativeSource={RelativeSource TemplatedParent}}" Height="{Binding LeftSize.Height, RelativeSource={RelativeSource TemplatedParent}}" ClipToBounds="True">
+                                                                <Image Source="{Binding Source, RelativeSource={RelativeSource TemplatedParent}}" Width="{Binding ImageWidth, RelativeSource={RelativeSource TemplatedParent}}" Height="{Binding ImageHeight, RelativeSource={RelativeSource TemplatedParent}}" Margin="{Binding MarginLeft, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                                            </Grid>
+                                                        </VisualBrush.Visual>
+                                                    </VisualBrush>
+                                                </Grid.Background>
                                             </Grid>
-                                        </VisualBrush.Visual>
-                                    </VisualBrush>
-                                </Grid.Background>
-                            </Grid>
-                            <!--Right-->
-                            <Grid Grid.Row="1" Grid.Column="2">
-                                <Grid.Background>
-                                    <VisualBrush TileMode="Tile" Viewport="{Binding ViewPortVertical, RelativeSource={RelativeSource TemplatedParent}}" ViewportUnits="Absolute">
-                                        <VisualBrush.Visual>
-                                            <Grid Width="{Binding SideWidth, RelativeSource={RelativeSource TemplatedParent}}" Height="{Binding CornerSize, RelativeSource={RelativeSource TemplatedParent}}" ClipToBounds="True">
-                                                <Image Source="{Binding Source, RelativeSource={RelativeSource TemplatedParent}}" Width="{Binding ImageWidth, RelativeSource={RelativeSource TemplatedParent}}" Height="{Binding ImageHeight, RelativeSource={RelativeSource TemplatedParent}}" Margin="{Binding MarginRight, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                        </Grid>
+                                        <!--Right-->
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="{Binding TopRightSize.Height, RelativeSource={RelativeSource TemplatedParent}}" />
+                                                <RowDefinition Height="*" />
+                                                <RowDefinition Height="{Binding BottomRightSize.Height, RelativeSource={RelativeSource TemplatedParent}}" />
+                                            </Grid.RowDefinitions>
+                                            <Grid Grid.Row="1" HorizontalAlignment="Right" Width="{Binding RightWidth, RelativeSource={RelativeSource TemplatedParent}}">
+                                                <Grid.Background>
+                                                    <VisualBrush TileMode="Tile" Viewport="{Binding ViewPortRight, RelativeSource={RelativeSource TemplatedParent}}" ViewportUnits="Absolute">
+                                                        <VisualBrush.Visual>
+                                                            <Grid Width="{Binding RightSize.Width, RelativeSource={RelativeSource TemplatedParent}}" Height="{Binding RightSize.Height, RelativeSource={RelativeSource TemplatedParent}}" ClipToBounds="True">
+                                                                <Image Source="{Binding Source, RelativeSource={RelativeSource TemplatedParent}}" Width="{Binding ImageWidth, RelativeSource={RelativeSource TemplatedParent}}" Height="{Binding ImageHeight, RelativeSource={RelativeSource TemplatedParent}}" Margin="{Binding MarginRight, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                                            </Grid>
+                                                        </VisualBrush.Visual>
+                                                    </VisualBrush>
+                                                </Grid.Background>
                                             </Grid>
-                                        </VisualBrush.Visual>
-                                    </VisualBrush>
-                                </Grid.Background>
+                                        </Grid>
+                                    </Grid>
+                                </Grid>
                             </Grid>
                         </Grid>
                     </Grid>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <Style TargetType="{x:Type local:PhotoFrameChrome}">
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type local:PhotoFrameChrome}">
-                    <local:PhotoFrame Source="{Binding Source}" CornerSize="{Binding CornerSize}" Scale="{Binding Scale}" Mode="{Binding Mode}" />
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
