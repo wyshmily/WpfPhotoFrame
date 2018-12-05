@@ -53,11 +53,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Compile Include="PhotoFrame.cs" />
     <Compile Include="PhotoFrameChrome.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="PhotoFrameAdorner.cs" />
-    <Compile Include="PhotoFrame.cs" />
+    <Compile Include="PhotoFrameDecorator.cs" />
     <Compile Include="PhotoFrameMode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

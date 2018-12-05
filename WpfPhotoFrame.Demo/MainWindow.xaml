@@ -19,23 +19,21 @@
                 </ComboBox.ItemTemplate>
             </ComboBox>
             <TextBlock Text="Scale：" VerticalAlignment="Center" Margin="20 0 0 0"/>
-            <Slider x:Name="Slider" Minimum="0" Maximum="4" Value="0.4" VerticalAlignment="Center" Width="200" SmallChange="0.1" LargeChange="1" />
+            <Slider x:Name="Slider" Minimum="0" Maximum="20" Value="0.4" VerticalAlignment="Center" Width="200" SmallChange="0.1" LargeChange="1" />
             <TextBlock Text="{Binding Value, ElementName=Slider, StringFormat=F01}" VerticalAlignment="Center"/>
             <TextBlock Text="Scale：" VerticalAlignment="Center" Margin="20 0 0 0"/>
             <ComboBox x:Name="ModeComboBox" ItemsSource="{Binding ModeList}" VerticalAlignment="Center" VerticalContentAlignment="Center" Height="30" Width="120" SelectedIndex="1" />
         </StackPanel>
-        
 
-        <Grid Background="#7F000000" Margin="40">
-            <pf:PhotoFrame Source="{Binding SelectedItem.Source, ElementName=FrameComboBox}" CornerSize="{Binding SelectedItem.CornerSize, ElementName=FrameComboBox}" Scale="{Binding Value, ElementName=Slider}" Mode="{Binding SelectedItem, ElementName=ModeComboBox}" />
 
-            <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+        <!--<pf:PhotoFrame Background="#7F000000" Margin="40" Source="{Binding SelectedItem.Source, ElementName=FrameComboBox}" CornerSize="{Binding SelectedItem.CornerSize, ElementName=FrameComboBox}" Scale="{Binding Value, ElementName=Slider}" Mode="{Binding SelectedItem, ElementName=ModeComboBox}">-->
+            <pf:PhotoFrame Source="{Binding SelectedItem.Source, ElementName=FrameComboBox}" CornerSize="{Binding SelectedItem.CornerSize, ElementName=FrameComboBox}" Scale="{Binding Value, ElementName=Slider}" Mode="{Binding SelectedItem, ElementName=ModeComboBox}" VerticalAlignment="Center" HorizontalAlignment="Center">
                 <Image Source="Images/jangye.jpeg" Width="400"/>
-                <pf:PhotoFrame Source="{Binding SelectedItem.Source, ElementName=FrameComboBox}" CornerSize="{Binding SelectedItem.CornerSize, ElementName=FrameComboBox}" Scale="{Binding Value, ElementName=Slider}" Mode="{Binding SelectedItem, ElementName=ModeComboBox}"/>
-            </Grid>
-        </Grid>
+            </pf:PhotoFrame>
+        <!--</pf:PhotoFrame>-->
+
+
 
     </DockPanel>
 
 </Window>
-                        

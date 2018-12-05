@@ -8,13 +8,7 @@ namespace WpfPhotoFrame
     {
         private readonly VisualCollection visuals;
         private readonly PhotoFrameChrome chrome;
-        protected override int VisualChildrenCount
-        {
-            get
-            {
-                return this.visuals.Count;
-            }
-        }
+        protected override int VisualChildrenCount => this.visuals.Count;
 
         public PhotoFrameAdorner(FrameworkElement adornedElement) : base(adornedElement)
         {
@@ -28,9 +22,6 @@ namespace WpfPhotoFrame
             return arrangeBounds;
         }
 
-        protected override Visual GetVisualChild(int index)
-        {
-            return this.visuals[index];
-        }
+        protected override Visual GetVisualChild(int index) => this.visuals[index];
     }
 }
