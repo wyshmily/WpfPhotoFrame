@@ -2,7 +2,6 @@
 A easy way to apply a PhotoFrame to anything in WPF.
 
 #### Use a Frame Image, like:
-
 <img src="https://github.com/wyshmily/WpfPhotoFrame/blob/master/WpfPhotoFrame.Demo/Images/TestFrame.png" width="90">
 
 #### Apply it to just anything(a photo for example):
@@ -37,5 +36,4 @@ A easy way to apply a PhotoFrame to anything in WPF.
 
 ````
 #### NuGet Package:
-
 `PM> Install-Package WpfPhotoFrame`
