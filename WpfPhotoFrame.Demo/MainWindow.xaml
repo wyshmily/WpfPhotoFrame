@@ -19,7 +19,7 @@
                 </ComboBox.ItemTemplate>
             </ComboBox>
             <TextBlock Text="Scale：" VerticalAlignment="Center" Margin="20 0 0 0"/>
-            <Slider x:Name="Slider" Minimum="0" Maximum="20" Value="0.4" VerticalAlignment="Center" Width="200" SmallChange="0.1" LargeChange="1" />
+            <Slider x:Name="Slider" Minimum="0" Maximum="2" Value="0.4" VerticalAlignment="Center" Width="200" SmallChange="0.1" LargeChange="1" />
             <TextBlock Text="{Binding Value, ElementName=Slider, StringFormat=F01}" VerticalAlignment="Center"/>
             <TextBlock Text="Scale：" VerticalAlignment="Center" Margin="20 0 0 0"/>
             <ComboBox x:Name="ModeComboBox" ItemsSource="{Binding ModeList}" VerticalAlignment="Center" VerticalContentAlignment="Center" Height="30" Width="120" SelectedIndex="0" />
@@ -28,7 +28,7 @@
 
         <pf:PhotoFrame Margin="40" Source="{Binding SelectedItem.Source, ElementName=FrameComboBox}" CornerSizes="{Binding SelectedItem.CornerSizes, ElementName=FrameComboBox}" Scale="{Binding Value, ElementName=Slider}" Mode="{Binding SelectedItem, ElementName=ModeComboBox}">
             <Grid Background="#7F000000">
-                <pf:PhotoFrame Source="{Binding SelectedItem.Source, ElementName=FrameComboBox}" Scale="{Binding Value, ElementName=Slider}" Mode="{Binding SelectedItem, ElementName=ModeComboBox}" VerticalAlignment="Center" HorizontalAlignment="Center" CornerSizes="{Binding SelectedItem.CornerSizes, ElementName=FrameComboBox}">
+                <pf:PhotoFrame Margin="40" Source="{Binding SelectedItem.Source, ElementName=FrameComboBox}" CornerSizes="{Binding SelectedItem.CornerSizes, ElementName=FrameComboBox}" Scale="{Binding Value, ElementName=Slider}" Mode="{Binding SelectedItem, ElementName=ModeComboBox}" VerticalAlignment="Center" HorizontalAlignment="Center">
                     <Image Source="Images/jangye.jpeg" Width="400"/>
                 </pf:PhotoFrame>
             </Grid>
