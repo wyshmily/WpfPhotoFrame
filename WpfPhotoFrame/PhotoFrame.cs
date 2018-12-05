@@ -439,7 +439,7 @@ namespace WpfPhotoFrame
                 if (rightTileCount > 0)
                 {
                     pf.ViewPortRight = new Rect(0, 0, pf.RightWidth, rightSideHeight / rightTileCount);
-                    pf.MarginRight = new Thickness(0, -topRightSize.Height, 0, 0);
+                    pf.MarginRight = new Thickness(pf.RightSize.Width - pf.ImageWidth, -topRightSize.Height, 0, 0);
                 }
                 else
                     pf.ViewPortRight = new Rect(0, 0, 0, 0);
