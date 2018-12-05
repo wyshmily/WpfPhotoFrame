@@ -19,7 +19,7 @@ A easy way to apply a PhotoFrame to anything in WPF.
 
 <!--xmlns:pf="http://wpf.wyshmily/photoframe"-->
 
-<pf:PhotoFrame Source="Images/TestFrame.png" CornerSize="60" Scale="0.4" Mode="Intermediate"  VerticalAlignment="Center" HorizontalAlignment="Center">
+<pf:PhotoFrame Source="Images/TestFrame.png" CornerSize="60" Scale="0.4" Mode="Intermediate" VerticalAlignment="Center" HorizontalAlignment="Center">
     <Image Source="Images/jangye.jpeg" Width="400"/>
 </pf:PhotoFrame>
 
@@ -31,7 +31,7 @@ A easy way to apply a PhotoFrame to anything in WPF.
 
 <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
     <Image Source="Images/jangye.jpeg" Width="400" />
-    <pf:PhotoFrame Source="Images/TestFrame.png" CornerSize="60" Scale="0.4" Mode="Intermediate" />
+    <pf:PhotoFrameDecorator Source="Images/TestFrame.png" CornerSize="60" Scale="0.4" Mode="Intermediate" />
 </Grid>
 
 ````
